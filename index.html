@@ -1,318 +1,277 @@
 <!doctype html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>30 LeetCode-Style Exercises (C++) — 15 Basic + 15 Advanced</title>
+  <title>30 Exercícios Estilo LeetCode (C++) — Básico e Avançado</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+    crossorigin="anonymous"
+  >
   <style>
     :root{
-      --bg: #0a0f1b;
-      --panel: rgba(13,18,28,0.85);
-      --panel2: rgba(13,18,28,0.55);
-      --text: #e8edf5;
-      --muted: #b7c0d1;
-      --soft: rgba(255,255,255,0.14);
-      --border: rgba(139,161,191,0.28);
-      --link: #7ad3ff;
-      --accent: #8ef0d0;
-      --warn: #f8d36a;
-      --ring: rgba(122,211,255,0.55);
-      --shadow: 0 18px 40px rgba(0,0,0,0.45);
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      --sans: "Avenir Next", "Futura", "Trebuchet MS", "Segoe UI", sans-serif;
-      --radius: 16px;
+      --bg: #0b111a;
+      --panel: rgba(15, 22, 34, 0.82);
+      --panel-strong: rgba(19, 28, 44, 0.92);
+      --stroke: rgba(148, 170, 200, 0.22);
+      --soft: rgba(255, 255, 255, 0.06);
+      --text: #e9eef7;
+      --muted: #a8b3c7;
+      --accent: #72e4c6;
+      --accent-2: #7ab8ff;
+      --warn: #f7c66a;
+      --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: "Space Grotesk", "Avenir Next", "Futura", "Trebuchet MS", sans-serif;
+      --radius: 18px;
+      --shadow: 0 24px 60px rgba(0,0,0,0.45);
     }
 
     *{ box-sizing: border-box; }
-
-    html, body{ height: 100%; }
 
     body{
       margin: 0;
       font-family: var(--sans);
       color: var(--text);
       background:
-        radial-gradient(1000px 700px at 10% -10%, rgba(122,211,255,0.28), transparent 60%),
-        radial-gradient(900px 700px at 90% 0%, rgba(142,240,208,0.20), transparent 55%),
-        radial-gradient(800px 700px at 50% 100%, rgba(248,211,106,0.14), transparent 60%),
-        linear-gradient(180deg, rgba(9,12,20,0.98), rgba(10,15,27,0.98)),
-        var(--bg);
+        radial-gradient(1200px 700px at -5% -10%, rgba(122, 184, 255, 0.26), transparent 60%),
+        radial-gradient(900px 600px at 110% 10%, rgba(114, 228, 198, 0.24), transparent 55%),
+        radial-gradient(900px 800px at 50% 110%, rgba(247, 198, 106, 0.18), transparent 60%),
+        linear-gradient(180deg, #0b111a 0%, #0a0f18 100%);
       line-height: 1.6;
-      background-attachment: fixed;
-      text-rendering: optimizeLegibility;
-      -webkit-font-smoothing: antialiased;
+      min-height: 100vh;
     }
 
-    a{ color: var(--link); text-decoration: none; }
-    a:visited{ color: var(--link); }
-    a:hover{ text-decoration: underline; }
-    a:focus-visible{
-      outline: 2px solid var(--ring);
-      outline-offset: 2px;
-      border-radius: 8px;
-    }
-
-    .container{
-      max-width: 1120px;
+    .page{
+      max-width: 1100px;
       margin: 0 auto;
-      padding: clamp(22px, 3vw, 32px) clamp(16px, 3vw, 22px) 84px;
+      padding: clamp(18px, 3vw, 32px) clamp(16px, 4vw, 28px) 80px;
     }
 
-    @keyframes fadeUp{
-      from{ opacity: 0; transform: translateY(12px); }
-      to{ opacity: 1; transform: translateY(0); }
-    }
-
-    header{
-      display: grid;
-      gap: 14px;
-      padding: 24px;
-      border: 1px solid var(--border);
-      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    .hero{
+      padding: 28px;
       border-radius: var(--radius);
+      border: 1px solid var(--stroke);
+      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
       box-shadow: var(--shadow);
-      animation: fadeUp 0.6s ease both;
     }
 
-    header h1{
-      margin: 0;
-      font-size: clamp(22px, 2.6vw, 34px);
+    .hero h1{
+      margin: 0 0 10px;
+      font-size: clamp(24px, 2.7vw, 36px);
       letter-spacing: -0.02em;
     }
 
-    header p{
+    .hero p{
       margin: 0;
       color: var(--muted);
-      max-width: 85ch;
+      max-width: 70ch;
     }
 
-    .badges{
+    .badge-row{
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
-      margin-top: 4px;
-    }
-
-    .badge{
-      padding: 6px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      border: 1px solid var(--border);
-      background: var(--panel2);
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    nav{
       margin-top: 16px;
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      animation: fadeUp 0.6s ease both;
-      animation-delay: 80ms;
     }
 
-    .toc{
-      padding: 16px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: var(--panel2);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
-    }
-
-    .toc h2{
-      margin: 0 0 10px;
-      font-size: 14px;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
+    .chip{
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--stroke);
+      background: var(--panel);
       color: var(--muted);
+      letter-spacing: 0.01em;
     }
 
-    .toc-grid{
-      display: grid;
-      gap: 10px;
-      grid-template-columns: 1fr;
-    }
-
-    @media (min-width: 860px){
-      nav{ grid-template-columns: 1fr 1fr; }
-      .toc-grid{ grid-template-columns: 1fr 1fr; }
-    }
-
-    .toc a{
-      display: block;
-      width: 100%;
-      padding: 8px 12px;
-      border-radius: 10px;
-      border: 1px solid transparent;
-      border-left: 2px solid transparent;
-      background: transparent;
-    }
-
-    .toc a:hover{
-      border-color: var(--soft);
-      border-left-color: rgba(122,211,255,0.6);
-      background: rgba(255,255,255,0.04);
-      text-decoration: none;
-    }
-    .toc a:focus-visible{
-      border-color: var(--ring);
-      border-left-color: var(--ring);
-      background: rgba(122,211,255,0.08);
-    }
+    .chip.accent{ border-color: rgba(114, 228, 198, 0.5); color: #b9f6e5; }
+    .chip.info{ border-color: rgba(122, 184, 255, 0.5); color: #c8e0ff; }
+    .chip.warn{ border-color: rgba(247, 198, 106, 0.5); color: #ffe0a7; }
 
     .section{
       margin-top: 22px;
-      padding: 20px;
+      padding: 22px;
       border-radius: var(--radius);
-      border: 1px solid var(--border);
+      border: 1px solid var(--stroke);
       background: var(--panel);
       box-shadow: var(--shadow);
-      animation: fadeUp 0.6s ease both;
-      animation-delay: 120ms;
     }
 
     .section h2{
       margin: 0 0 6px;
       font-size: 18px;
-      color: rgba(255,255,255,0.92);
       letter-spacing: -0.01em;
     }
-    .section h2::after{
-      content: "";
-      display: block;
-      width: 52px;
-      height: 2px;
-      margin-top: 8px;
-      border-radius: 999px;
-      background: linear-gradient(90deg, rgba(122,211,255,0.8), rgba(142,240,208,0.5));
-      opacity: 0.9;
-    }
 
-    .section p, .section li{ color: var(--muted); }
+    .section p{ color: var(--muted); margin-bottom: 0; }
 
-    .grid{
-      margin-top: 14px;
+    .toc-grid{
       display: grid;
       gap: 16px;
-      grid-template-columns: 1fr;
     }
 
-    .card{
-      padding: 18px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
-      animation: fadeUp 0.5s ease both;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-    }
-    .card:hover{
-      transform: translateY(-2px);
-      border-color: rgba(122,211,255,0.45);
-      box-shadow: 0 12px 26px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+    @media (min-width: 900px){
+      .toc-grid{ grid-template-columns: 1fr 1fr; }
     }
 
-    .grid .card:nth-child(6n + 1){ animation-delay: 0ms; }
-    .grid .card:nth-child(6n + 2){ animation-delay: 70ms; }
-    .grid .card:nth-child(6n + 3){ animation-delay: 140ms; }
-    .grid .card:nth-child(6n + 4){ animation-delay: 210ms; }
-    .grid .card:nth-child(6n + 5){ animation-delay: 280ms; }
-    .grid .card:nth-child(6n + 6){ animation-delay: 350ms; }
+    .toc-box{
+      padding: 14px;
+      border-radius: 14px;
+      border: 1px solid var(--soft);
+      background: rgba(9, 14, 22, 0.45);
+    }
 
-    .card h3{
-      margin: 0 0 8px;
+    .toc-box h3{
+      font-size: 13px;
+      margin: 0 0 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .toc-box a{
+      display: inline-block;
+      margin: 0 8px 8px 0;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(255,255,255,0.03);
+      color: #cfe2ff;
+      font-size: 13px;
+      text-decoration: none;
+    }
+
+    .toc-box a:hover{
+      border-color: rgba(122, 184, 255, 0.5);
+      background: rgba(122, 184, 255, 0.12);
+    }
+
+    .accordion-item{
+      border: 1px solid var(--stroke);
+      background: var(--panel-strong);
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.04);
+    }
+
+    .accordion-item + .accordion-item{
+      margin-top: 12px;
+    }
+
+    .accordion-button{
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      font-weight: 600;
+      padding: 16px 18px;
+    }
+
+    .accordion-button:not(.collapsed){
+      background: rgba(122, 184, 255, 0.12);
+      color: var(--text);
+      box-shadow: none;
+    }
+
+    .accordion-button:focus{
+      box-shadow: 0 0 0 2px rgba(122, 184, 255, 0.35);
+    }
+
+    .accordion-button::after{
+      filter: invert(1) opacity(0.7);
+    }
+
+    .accordion-body{
+      color: var(--muted);
+      background: rgba(9, 14, 22, 0.35);
+    }
+
+    .exercise-title{
       font-size: 16px;
-      letter-spacing: -0.01em;
+      display: block;
+      margin-bottom: 6px;
     }
-    .card p{ margin: 8px 0; }
-    .card code{
+
+    .meta-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .meta-pill{
+      font-size: 11.5px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--soft);
+      background: rgba(255,255,255,0.04);
+      color: #c7d3e6;
+    }
+
+    .meta-pill.hard{ border-color: rgba(247, 198, 106, 0.5); color: #ffe0a7; }
+    .meta-pill.accent{ border-color: rgba(114, 228, 198, 0.5); color: #baf4e4; }
+    .meta-pill.info{ border-color: rgba(122, 184, 255, 0.5); color: #cfe2ff; }
+
+    .bullet-list{
+      padding-left: 1.1rem;
+      margin-bottom: 10px;
+    }
+
+    .bullet-list li{
+      margin-bottom: 8px;
+    }
+
+    .bullet-list li::marker{
+      color: var(--accent);
+    }
+
+    .tag-row{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .tag{
+      font-size: 12px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(114, 228, 198, 0.35);
+      color: #bff3e6;
+      background: rgba(114, 228, 198, 0.08);
+    }
+
+    .examples h6{
+      font-size: 13px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #cbd6ea;
+      margin-bottom: 8px;
+    }
+
+    .example-list li::marker{
+      color: var(--accent-2);
+    }
+
+    code{
       font-family: var(--mono);
       font-size: 12.5px;
       padding: 1px 6px;
       border-radius: 8px;
-      background: rgba(9,12,20,0.55);
+      background: rgba(8, 11, 18, 0.75);
       border: 1px solid rgba(255,255,255,0.08);
-      color: rgba(255,255,255,0.9);
-    }
-
-    .meta{
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 8px 0 10px;
-    }
-
-    .pill{
-      font-size: 12px;
-      padding: 5px 9px;
-      border-radius: 999px;
-      border: 1px solid var(--soft);
-      background: rgba(255,255,255,0.04);
-      color: rgba(255,255,255,0.76);
-    }
-
-    .pill.accent{ border-color: rgba(167,243,208,0.35); color: rgba(167,243,208,0.9); }
-    .pill.warn{ border-color: rgba(252,211,77,0.35); color: rgba(252,211,77,0.92); }
-
-    .card strong{ color: rgba(255,255,255,0.88); }
-
-    .card ul{
-      margin: 10px 0 0;
-      padding-left: 18px;
-    }
-
-    .kv{
-      margin-top: 10px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .kv .row{
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid rgba(255,255,255,0.10);
-      background: rgba(0,0,0,0.18);
-    }
-
-    .kv code{
-      font-family: var(--mono);
-      font-size: 12px;
-      color: rgba(255,255,255,0.82);
+      color: #e3ecff;
     }
 
     footer{
-      margin-top: 18px;
-      padding: 16px;
+      margin-top: 22px;
+      padding: 18px;
       border-radius: var(--radius);
-      border: 1px solid var(--border);
-      background: var(--panel2);
+      border: 1px solid var(--stroke);
+      background: var(--panel);
       color: var(--muted);
-      animation: fadeUp 0.6s ease both;
-      animation-delay: 160ms;
-    }
-
-    .small{ font-size: 13px; }
-    .small.bump{ font-size: 14px; }
-
-    .toplink{
-      display: inline-block;
-      margin-top: 10px;
-      font-size: 12px;
-      color: rgba(125,211,252,0.95);
-      padding: 4px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(125,211,252,0.25);
-      background: rgba(125,211,252,0.06);
-    }
-    .toplink:hover{ text-decoration: none; border-color: rgba(125,211,252,0.5); }
-
-    /* Print-friendly */
-    @media print{
-      body{ background: white; color: black; }
-      header, .section, .card, .toc, footer{ box-shadow: none; background: white; }
-      a{ color: black; text-decoration: underline; }
-      .pill, .badge{ border: 1px solid #ddd; color: #333; }
     }
 
     @media (prefers-reduced-motion: reduce){
@@ -320,551 +279,616 @@
     }
   </style>
 </head>
-
 <body>
-  <div class="container" id="top">
-
-    <header>
-      <h1>30 LeetCode‑Style Exercises (C++) — 15 Basic + 15 Advanced</h1>
+  <div class="page" id="topo">
+    <header class="hero">
+      <h1>30 Exercícios Estilo LeetCode (C++) — 15 Básicos + 15 Avançados</h1>
       <p>
-        A curated set of classic algorithm problems with detailed requirements, constraints, C++ notes, target complexity,
-        and common pitfalls. Use this as a structured roadmap for interviews and competitive programming fundamentals.
+        Cada exercício está organizado em tópicos e o título funciona como um <strong>collapse</strong>.
+        Clique para abrir e ver a tarefa, restrições, dicas em C++ e exemplos.
       </p>
-      <div class="badges">
-        <span class="badge">Language: C++</span>
-        <span class="badge">Patterns: Hashing, Two Pointers, Sliding Window, BFS/DFS, DP, DSU, MST</span>
-        <span class="badge">Focus: Correctness → Optimization → Testing</span>
+      <div class="badge-row">
+        <span class="chip accent">Linguagem: C++</span>
+        <span class="chip info">Foco: padrões + complexidade</span>
+        <span class="chip">Formato: tópicos + exemplos</span>
       </div>
     </header>
 
-    <nav>
-      <div class="toc">
-        <h2>Table of Contents</h2>
-        <div class="toc-grid">
-          <div>
-            <a href="#basics">Part 1 — Basic (1–15)</a><br />
-            <a href="#b1">1) Two Sum</a><br />
-            <a href="#b2">2) Valid Parentheses</a><br />
-            <a href="#b3">3) Merge Two Sorted Lists</a><br />
-            <a href="#b4">4) Reverse a Linked List</a><br />
-            <a href="#b5">5) Binary Search</a><br />
-            <a href="#b6">6) Flood Fill</a><br />
-            <a href="#b7">7) First Unique Character</a><br />
-            <a href="#b8">8) Valid Anagram</a><br />
-          </div>
-          <div>
-            <a href="#b9">9) Best Time to Buy/Sell Stock</a><br />
-            <a href="#b10">10) Longest Common Prefix</a><br />
-            <a href="#b11">11) Move Zeroes</a><br />
-            <a href="#b12">12) Implement Queue using Stacks</a><br />
-            <a href="#b13">13) Level Order Traversal</a><br />
-            <a href="#b14">14) Invert Binary Tree</a><br />
-            <a href="#b15">15) Majority Element</a><br />
-          </div>
-          <div>
-            <a href="#advanced">Part 2 — Advanced (16–30)</a><br />
-            <a href="#a16">16) Longest Unique Substring</a><br />
-            <a href="#a17">17) Minimum Window Substring</a><br />
-            <a href="#a18">18) Merge Intervals</a><br />
-            <a href="#a19">19) Kth Largest Element</a><br />
-            <a href="#a20">20) LRU Cache</a><br />
-            <a href="#a21">21) Course Schedule</a><br />
-            <a href="#a22">22) Word Ladder</a><br />
-            <a href="#a23">23) Serialize/Deserialize Tree</a><br />
-          </div>
-          <div>
-            <a href="#a24">24) Trapping Rain Water</a><br />
-            <a href="#a25">25) Largest Rectangle Histogram</a><br />
-            <a href="#a26">26) Median of Two Sorted Arrays</a><br />
-            <a href="#a27">27) Regex Matching</a><br />
-            <a href="#a28">28) Edit Distance</a><br />
-            <a href="#a29">29) Number of Islands II</a><br />
-            <a href="#a30">30) Min Cost to Connect Points</a><br />
-          </div>
+    <section class="section" id="toc">
+      <h2>Índice Rápido</h2>
+      <p>Selecione um exercício para ir direto ao collapse correspondente.</p>
+      <div class="toc-grid mt-3">
+        <div class="toc-box">
+          <h3>Básico (1–15)</h3>
+          <div id="tocBasics"></div>
         </div>
-      </div>
-
-      <div class="toc">
-        <h2>Practice Workflow</h2>
-        <ul class="small bump">
-          <li><strong>Start brute force</strong> to nail correctness.</li>
-          <li>Identify the <strong>dominant pattern</strong> (window/graph/DP…).</li>
-          <li>Optimize to the <strong>target complexity</strong>.</li>
-          <li>Write tests: edge cases, random, worst-case.</li>
-          <li>Explain: <strong>invariant</strong> + complexity.</li>
-        </ul>
-        <div class="kv">
-          <div class="row"><strong>C++ STL:</strong> <code>vector, string, unordered_map, unordered_set, deque, stack, queue, priority_queue, list</code></div>
-          <div class="row"><strong>Interview habit:</strong> <code>mid = lo + (hi - lo)/2</code> (avoid overflow)</div>
-          <div class="row"><strong>Grid:</strong> <code>dirs = {{1,0},{-1,0},{0,1},{0,-1}}</code> (4-neighborhood)</div>
+        <div class="toc-box">
+          <h3>Avançado (16–30)</h3>
+          <div id="tocAdvanced"></div>
         </div>
-      </div>
-    </nav>
-
-    <section class="section" id="basics">
-      <h2>Part 1 — 15 Basic Exercises</h2>
-      <p>Build fluency with foundational patterns. Prioritize clean implementations and strong edge-case handling.</p>
-
-      <div class="grid">
-
-        <article class="card" id="b1">
-          <h3>1) Two Sum (Hash Map)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Hashing</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Given <code>nums</code> and <code>target</code>, return indices <code>i, j</code> such that <code>nums[i] + nums[j] == target</code>. You may not reuse the same element.</p>
-          <p><strong>Constraints:</strong> <code>2 ≤ n ≤ 1e5</code>, values may be negative. Assume one valid answer exists.</p>
-          <p><strong>C++ note:</strong> store <code>value → index</code> in <code>unordered_map</code>; for each <code>x</code>, check if <code>target-x</code> is already seen.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> duplicates (e.g., <code>[3,3]</code>), returning values instead of indices.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b2">
-          <h3>2) Valid Parentheses (Stack)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Stack</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Determine if a bracket string containing only <code>()[]{}</code> is valid (correct type and correct nesting order).</p>
-          <p><strong>Constraints:</strong> <code>0 ≤ |s| ≤ 1e5</code>.</p>
-          <p><strong>C++ note:</strong> use <code>stack&lt;char&gt;</code> and a mapping from closing → expected opening.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> leading closing bracket; leftover opens at the end.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b3">
-          <h3>3) Merge Two Sorted Lists (Linked List)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Pointers</span>
-            <span class="pill">Target: O(n+m)</span>
-          </div>
-          <p><strong>Task:</strong> Merge two sorted singly-linked lists into one sorted list and return its head.</p>
-          <p><strong>Constraints:</strong> total nodes ≤ <code>1e5</code>.</p>
-          <p><strong>C++ note:</strong> use a dummy head node; iteratively append the smaller current node.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> forgetting to attach the remaining tail; recursion depth.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b4">
-          <h3>4) Reverse a Linked List (Iterative)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Pointers</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Reverse a singly linked list and return the new head.</p>
-          <p><strong>C++ note:</strong> use <code>prev</code>, <code>cur</code>, <code>next</code>; save <code>next</code> before rewiring <code>cur-&gt;next</code>.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> losing the next pointer; returning the wrong head.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b5">
-          <h3>5) Binary Search (Classic)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Binary Search</span>
-            <span class="pill">Target: O(log n)</span>
-          </div>
-          <p><strong>Task:</strong> Given a sorted array and a target, return its index or <code>-1</code>.</p>
-          <p><strong>Constraints:</strong> up to <code>1e6</code> elements.</p>
-          <p><strong>C++ note:</strong> compute mid as <code>lo + (hi - lo)/2</code> to avoid overflow.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> infinite loops from incorrect boundary updates; off-by-one errors.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b6">
-          <h3>6) Flood Fill (Grid DFS/BFS)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: BFS/DFS</span>
-            <span class="pill">Target: O(m·n)</span>
-          </div>
-          <p><strong>Task:</strong> Recolor the entire 4-connected region starting from <code>(sr, sc)</code> that has the same original color.</p>
-          <p><strong>Constraints:</strong> <code>1 ≤ m,n ≤ 200</code>.</p>
-          <p><strong>C++ note:</strong> handle <code>newColor == oldColor</code> early to avoid loops; BFS with <code>queue</code> is robust.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> revisiting cells; missing bounds checks; wrong connectivity (4 vs 8).</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b7">
-          <h3>7) First Unique Character (Counting)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Frequency</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Return the index of the first non-repeating character in a string, or <code>-1</code> if none.</p>
-          <p><strong>C++ note:</strong> two-pass approach: count frequencies, then scan for the first with count 1. Use <code>array&lt;int,256&gt;</code>.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> mixing index and character; not handling empty string.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b8">
-          <h3>8) Valid Anagram (Frequency)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Frequency</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Determine if <code>t</code> is an anagram of <code>s</code>.</p>
-          <p><strong>C++ note:</strong> if lengths differ, return false. Count with a fixed-size array for speed.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> using sorting as default (works, but slower); forgetting early length check.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b9">
-          <h3>9) Best Time to Buy and Sell Stock (Single Pass)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Greedy</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Choose one day to buy and a later day to sell to maximize profit. Return 0 if no profit is possible.</p>
-          <p><strong>C++ note:</strong> track the minimum price seen so far and update best profit each step.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> selling before buying; returning negative profit.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b10">
-          <h3>10) Longest Common Prefix (String Scan)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Strings</span>
-            <span class="pill">Target: O(total chars)</span>
-          </div>
-          <p><strong>Task:</strong> Given an array of strings, return the longest common prefix (or empty string).</p>
-          <p><strong>C++ note:</strong> start with prefix = first string, shrink while other strings don’t match; or sort and compare first/last.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> empty string among inputs; single-element case.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b11">
-          <h3>11) Move Zeroes (Two Pointers)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Two Pointers</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Move all zeros to the end of the array <em>in-place</em>, maintaining the relative order of non-zero elements.</p>
-          <p><strong>C++ note:</strong> use a write index for non-zeros; fill the rest with zeros.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> unnecessary swaps; not preserving order.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b12">
-          <h3>12) Implement Queue using Stacks</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Two Stacks</span>
-            <span class="pill">Target: Amortized O(1)</span>
-          </div>
-          <p><strong>Task:</strong> Implement a FIFO queue using two LIFO stacks with operations: <code>push</code>, <code>pop</code>, <code>peek</code>, <code>empty</code>.</p>
-          <p><strong>C++ note:</strong> use <code>in</code> and <code>out</code>; pour only when <code>out</code> is empty and you need front.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> pouring every operation instead of lazily.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b13">
-          <h3>13) Binary Tree Level Order Traversal (BFS)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: BFS</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Return a list of levels where each level contains the values of nodes at that depth.</p>
-          <p><strong>C++ note:</strong> queue + process <code>levelSize</code> nodes per loop iteration.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> ignoring <code>nullptr</code> root; mixing levels without <code>levelSize</code>.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b14">
-          <h3>14) Invert Binary Tree (DFS)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: DFS</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Swap left and right children of every node and return the root.</p>
-          <p><strong>C++ note:</strong> recursive DFS or iterative BFS both work; keep it simple and safe.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> forgetting base case; accidentally losing a child pointer during swap.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="b15">
-          <h3>15) Majority Element (Boyer–Moore Voting)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Voting</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Find the element that appears more than ⌊n/2⌋ times (guaranteed to exist).</p>
-          <p><strong>C++ note:</strong> maintain <code>candidate</code> and <code>count</code>; decrement when mismatch and reset when count hits 0.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> if not guaranteed, you need a verification pass.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
       </div>
     </section>
 
-    <section class="section" id="advanced">
-      <h2>Part 2 — 15 Advanced Exercises</h2>
-      <p>These require stronger pattern recognition and implementation discipline (windows, graphs, DP, DSU, MST).</p>
+    <section class="section" id="basicos">
+      <h2>Parte 1 — Básico</h2>
+      <p>Construa base sólida em hashing, ponteiros, filas/pilhas e BFS/DFS.</p>
+      <div class="accordion mt-4" id="accordionBasics"></div>
+    </section>
 
-      <div class="grid">
-
-        <article class="card" id="a16">
-          <h3>16) Longest Substring Without Repeating Characters (Sliding Window)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Sliding Window</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Return the length of the longest substring of <code>s</code> containing all unique characters.</p>
-          <p><strong>C++ note:</strong> track last seen index with <code>array&lt;int,256&gt;</code> initialized to -1; update <code>left = max(left, last[c]+1)</code>.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> moving <code>left</code> backward; off-by-one with indices.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a17">
-          <h3>17) Minimum Window Substring (Hard Sliding Window)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: Sliding Window</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Return the smallest substring of <code>s</code> that contains all chars of <code>t</code> (with multiplicity). Return empty string if none.</p>
-          <p><strong>Approach requirements:</strong> expand right until valid → shrink left to minimize while keeping valid.</p>
-          <p><strong>C++ note:</strong> use frequency arrays (ASCII) and track how many required chars are satisfied.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> ignoring multiplicities; incorrect validity condition.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a18">
-          <h3>18) Merge Intervals (Sort + Sweep)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Sort</span>
-            <span class="pill">Target: O(n log n)</span>
-          </div>
-          <p><strong>Task:</strong> Merge overlapping intervals and return the merged list.</p>
-          <p><strong>C++ note:</strong> sort by start; iterate and extend current interval end when overlap exists (<code>next.start ≤ cur.end</code>).</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> endpoint handling; forgetting to push final interval.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a19">
-          <h3>19) Kth Largest Element in an Array (Heap / Quickselect)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Heap</span>
-            <span class="pill">Target: O(n log k)</span>
-          </div>
-          <p><strong>Task:</strong> Return the <code>k</code>th largest element (not kth distinct).</p>
-          <p><strong>C++ note:</strong> maintain a min-heap of size <code>k</code>; pop when size exceeds <code>k</code>.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> confusion between kth largest and kth distinct; mishandling duplicates.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a20">
-          <h3>20) LRU Cache (Hash Map + Doubly Linked List)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: Design</span>
-            <span class="pill">Target: O(1) avg</span>
-          </div>
-          <p><strong>Task:</strong> Implement an LRU cache with <code>get</code> and <code>put</code> in O(1) average time. Evict least recently used when capacity exceeded.</p>
-          <p><strong>C++ note:</strong> use <code>list&lt;pair&lt;int,int&gt;&gt;</code> for order and <code>unordered_map&lt;int, list::iterator&gt;</code> for lookup.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> iterator invalidation after erase; forgetting to update existing keys.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a21">
-          <h3>21) Course Schedule (Topological Sort)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: DAG</span>
-            <span class="pill">Target: O(V+E)</span>
-          </div>
-          <p><strong>Task:</strong> Given prerequisites edges <code>b → a</code>, determine if all courses can be finished (graph must be acyclic).</p>
-          <p><strong>C++ note:</strong> Kahn’s algorithm (indegree + queue) or DFS cycle detection.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> disconnected components; duplicate edges; not counting processed nodes.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a22">
-          <h3>22) Word Ladder (BFS on Implicit Graph)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: BFS</span>
-            <span class="pill">Target: Practical O(N·L)</span>
-          </div>
-          <p><strong>Task:</strong> Transform <code>beginWord</code> to <code>endWord</code> by changing one letter at a time; every intermediate must be in dictionary. Return shortest length, or 0.</p>
-          <p><strong>C++ note:</strong> build wildcard buckets (e.g., <code>h*t</code>) → list of words; BFS using these buckets.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> revisiting words; marking visited too late; slow neighbor generation.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a23">
-          <h3>23) Serialize and Deserialize Binary Tree</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: Tree Encoding</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Implement <code>serialize(TreeNode*)</code> → string and <code>deserialize(string)</code> → TreeNode*, preserving structure (including null children).</p>
-          <p><strong>C++ note:</strong> choose BFS with <code>null</code> markers or preorder DFS with markers; ensure parsing is robust.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> ambiguous encoding; parsing errors; trailing null handling.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a24">
-          <h3>24) Trapping Rain Water (Two Pointers / Monotonic Stack)</h3>
-          <div class="meta">
-            <span class="pill accent">Pattern: Two Pointers</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Given bar heights, compute trapped water volume.</p>
-          <p><strong>C++ note:</strong> two-pointer method with <code>leftMax</code>, <code>rightMax</code> is clean and O(1) extra space.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> nested loops; miscomputing min boundary height.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a25">
-          <h3>25) Largest Rectangle in Histogram (Monotonic Stack)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: Monotonic Stack</span>
-            <span class="pill">Target: O(n)</span>
-          </div>
-          <p><strong>Task:</strong> Return the area of the largest rectangle that can be formed in a histogram.</p>
-          <p><strong>C++ note:</strong> keep an increasing stack of indices; when a lower height appears, pop and compute area using popped bar as smallest; add a sentinel 0 height to flush.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> width calculation mistakes; handling equal heights inconsistently.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a26">
-          <h3>26) Median of Two Sorted Arrays (Binary Search Partition)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: Binary Search</span>
-            <span class="pill">Target: O(log min(n,m))</span>
-          </div>
-          <p><strong>Task:</strong> Compute the median of two sorted arrays in <code>O(log(min(n,m)))</code>.</p>
-          <p><strong>Key idea:</strong> binary search partition in the smaller array so left side has half the elements and <code>maxLeft ≤ minRight</code>.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> even vs odd total length; empty array cases; boundary sentinels.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a27">
-          <h3>27) Regular Expression Matching (DP)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: DP</span>
-            <span class="pill">Target: O(n·m)</span>
-          </div>
-          <p><strong>Task:</strong> Implement regex matching where <code>.</code> matches any char and <code>*</code> means zero or more of the preceding element. Match must cover the entire string.</p>
-          <p><strong>C++ note:</strong> DP table <code>dp[i][j]</code> over prefixes; special transitions for <code>*</code>.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> initialization for patterns like <code>a*b*c*</code> matching empty string; wrong <code>*</code> transitions.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a28">
-          <h3>28) Edit Distance (Levenshtein DP)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: DP</span>
-            <span class="pill">Target: O(n·m)</span>
-          </div>
-          <p><strong>Task:</strong> Compute minimum insert/delete/replace operations to convert <code>word1</code> into <code>word2</code>.</p>
-          <p><strong>C++ note:</strong> classic DP with base rows/cols; optionally optimize memory to one row.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> forgetting base cases <code>dp[i][0]=i</code>, <code>dp[0][j]=j</code>.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a29">
-          <h3>29) Number of Islands II (Dynamic Connectivity via DSU)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: Union-Find</span>
-            <span class="pill">Target: ~O(k α)</span>
-          </div>
-          <p><strong>Task:</strong> Start with all water. Add lands one-by-one; after each addition, return current island count.</p>
-          <p><strong>C++ note:</strong> DSU over <code>id = r*n + c</code>. On activation: <code>count++</code>, union with active neighbors; if union merges components, <code>count--</code>.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> duplicate additions; forgetting to check <code>active</code> neighbors; wrong DSU initialization.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-        <article class="card" id="a30">
-          <h3>30) Minimum Cost to Connect Points (MST — Prim)</h3>
-          <div class="meta">
-            <span class="pill warn">Hard</span>
-            <span class="pill accent">Pattern: MST</span>
-            <span class="pill">Target: O(n²)</span>
-          </div>
-          <p><strong>Task:</strong> Connect all points with minimum total cost where edge cost is Manhattan distance.</p>
-          <p><strong>C++ note:</strong> Prim without explicit edge list: keep <code>minDist[i]</code> to current MST; pick smallest unvisited each step and update all distances.</p>
-          <ul>
-            <li><strong>Pitfalls:</strong> building all edges unnecessarily for large n; using slow priority queue when O(n²) is simpler.</li>
-          </ul>
-          <a class="toplink" href="#top">Back to top ↑</a>
-        </article>
-
-      </div>
+    <section class="section" id="avancados">
+      <h2>Parte 2 — Avançado</h2>
+      <p>Problemas que exigem janelas deslizantes, DP, grafos e estruturas avançadas.</p>
+      <div class="accordion mt-4" id="accordionAdvanced"></div>
     </section>
 
     <footer>
-      <strong>Suggested submission checklist (C++):</strong>
-      <ul class="small bump">
-        <li>State the approach + invariant (why it’s correct).</li>
-        <li>Write down time and memory complexity.</li>
-        <li>Test edges: empty, single, duplicates, extremes, worst-case shapes.</li>
-        <li>Prefer iterative solutions when recursion depth is risky.</li>
+      <strong>Checklist rápido (C++):</strong>
+      <ul class="bullet-list mt-2">
+        <li>Explique o invariável e a complexidade.</li>
+        <li>Teste extremos: vazio, duplicados e limites.</li>
+        <li>Prefira iterativo quando recursão pode estourar.</li>
       </ul>
     </footer>
-
   </div>
+
+  <script>
+    const exercises = [
+      {
+        id: "b1",
+        section: "basic",
+        number: 1,
+        title: "Two Sum (Hash Map)",
+        pattern: "Hashing",
+        target: "O(n)",
+        task: "Dado `nums` e `target`, retorne índices `i, j` tais que `nums[i] + nums[j] == target`.",
+        constraints: "2 ≤ n ≤ 1e5; valores podem ser negativos; existe uma solução única.",
+        note: "Guarde `valor → índice` em `unordered_map` e busque `target - x` a cada passo.",
+        pitfalls: ["Duplicados (ex.: [3,3])", "Retornar valores em vez de índices"],
+        examples: [
+          "Entrada <code>nums=[2,7,11,15], target=9</code> → Saída <code>[0,1]</code>",
+          "Entrada <code>nums=[3,2,4], target=6</code> → Saída <code>[1,2]</code>"
+        ]
+      },
+      {
+        id: "b2",
+        section: "basic",
+        number: 2,
+        title: "Valid Parentheses (Stack)",
+        pattern: "Stack",
+        target: "O(n)",
+        task: "Verifique se a string de parênteses está bem formada (tipos corretos e ordem válida).",
+        constraints: "0 ≤ |s| ≤ 1e5; caracteres somente em ()[]{}.",
+        note: "Use `stack<char>` e mapeie fechamento → abertura esperada.",
+        pitfalls: ["Fechamento sem abertura", "Aberturas sobrando no final"],
+        examples: [
+          "Entrada <code>s=\'()[]{}\'</code> → Saída <code>true</code>",
+          "Entrada <code>s=\'(]\'</code> → Saída <code>false</code>"
+        ]
+      },
+      {
+        id: "b3",
+        section: "basic",
+        number: 3,
+        title: "Merge Two Sorted Lists (Linked List)",
+        pattern: "Ponteiros",
+        target: "O(n+m)",
+        task: "Una duas listas encadeadas ordenadas e retorne a cabeça da lista resultante.",
+        constraints: "Total de nós ≤ 1e5.",
+        note: "Use nó sentinela e anexe sempre o menor nó atual.",
+        pitfalls: ["Esquecer de anexar o restante", "Recursão profunda"],
+        examples: [
+          "Entrada <code>1→2→4</code> e <code>1→3→4</code> → Saída <code>1→1→2→3→4→4</code>",
+          "Entrada <code>[]</code> e <code>0</code> → Saída <code>0</code>"
+        ]
+      },
+      {
+        id: "b4",
+        section: "basic",
+        number: 4,
+        title: "Reverse a Linked List (Iterativo)",
+        pattern: "Ponteiros",
+        target: "O(n)",
+        task: "Reverta uma lista encadeada simples e retorne a nova cabeça.",
+        constraints: "Lista pode estar vazia.",
+        note: "Mantenha `prev`, `cur` e salve `next` antes de reverter o ponteiro.",
+        pitfalls: ["Perder o próximo nó", "Retornar a cabeça errada"],
+        examples: [
+          "Entrada <code>1→2→3→4</code> → Saída <code>4→3→2→1</code>",
+          "Entrada <code>5</code> → Saída <code>5</code>"
+        ]
+      },
+      {
+        id: "b5",
+        section: "basic",
+        number: 5,
+        title: "Binary Search (Clássico)",
+        pattern: "Busca Binária",
+        target: "O(log n)",
+        task: "Dado um array ordenado, retorne o índice do alvo ou `-1`.",
+        constraints: "Até 1e6 elementos.",
+        note: "Calcule `mid = lo + (hi - lo) / 2` para evitar overflow.",
+        pitfalls: ["Atualização errada de limites", "Off-by-one"],
+        examples: [
+          "Entrada <code>nums=[-1,0,3,5,9,12], target=9</code> → Saída <code>4</code>",
+          "Entrada <code>nums=[-1,0,3,5,9,12], target=2</code> → Saída <code>-1</code>"
+        ]
+      },
+      {
+        id: "b6",
+        section: "basic",
+        number: 6,
+        title: "Flood Fill (DFS/BFS em grade)",
+        pattern: "BFS/DFS",
+        target: "O(m·n)",
+        task: "Recolora toda a região conectada (4 direções) a partir de `(sr, sc)`.",
+        constraints: "1 ≤ m,n ≤ 200.",
+        note: "Se `newColor == oldColor`, retorne cedo; BFS com fila é robusto.",
+        pitfalls: ["Revisitar células", "Conexão 4 vs 8 direções"],
+        examples: [
+          "Entrada <code>image=[[1,1,1],[1,1,0],[1,0,1]], sr=1, sc=1, new=2</code> → Saída <code>[[2,2,2],[2,2,0],[2,0,1]]</code>",
+          "Entrada <code>image=[[0,0,0]], sr=0, sc=0, new=0</code> → Saída <code>[[0,0,0]]</code>"
+        ]
+      },
+      {
+        id: "b7",
+        section: "basic",
+        number: 7,
+        title: "First Unique Character (Contagem)",
+        pattern: "Frequência",
+        target: "O(n)",
+        task: "Retorne o índice do primeiro caractere não repetido, ou `-1`.",
+        constraints: "String ASCII.",
+        note: "Faça duas passagens: conta e depois busca o primeiro com contagem 1.",
+        pitfalls: ["Misturar índice e caractere", "Não tratar string vazia"],
+        examples: [
+          "Entrada <code>\'leetcode\'</code> → Saída <code>0</code>",
+          "Entrada <code>\'aabb\'</code> → Saída <code>-1</code>"
+        ]
+      },
+      {
+        id: "b8",
+        section: "basic",
+        number: 8,
+        title: "Valid Anagram (Frequência)",
+        pattern: "Frequência",
+        target: "O(n)",
+        task: "Determine se `t` é anagrama de `s`.",
+        constraints: "Considere ASCII; tamanhos podem ser grandes.",
+        note: "Se tamanhos diferem, retorne false; use array fixo para contagem.",
+        pitfalls: ["Esquecer check de tamanho", "Usar sort desnecessariamente"],
+        examples: [
+          "Entrada <code>s=\'anagram\', t=\'nagaram\'</code> → Saída <code>true</code>",
+          "Entrada <code>s=\'rat\', t=\'car\'</code> → Saída <code>false</code>"
+        ]
+      },
+      {
+        id: "b9",
+        section: "basic",
+        number: 9,
+        title: "Best Time to Buy/Sell Stock",
+        pattern: "Guloso",
+        target: "O(n)",
+        task: "Compre em um dia e venda depois para maximizar lucro; se não houver, retorne 0.",
+        constraints: "Ao menos 1 preço.",
+        note: "Mantenha o menor preço visto e atualize o melhor lucro.",
+        pitfalls: ["Vender antes de comprar", "Lucro negativo"],
+        examples: [
+          "Entrada <code>prices=[7,1,5,3,6,4]</code> → Saída <code>5</code>",
+          "Entrada <code>prices=[7,6,4,3,1]</code> → Saída <code>0</code>"
+        ]
+      },
+      {
+        id: "b10",
+        section: "basic",
+        number: 10,
+        title: "Longest Common Prefix",
+        pattern: "Strings",
+        target: "O(total chars)",
+        task: "Retorne o maior prefixo comum entre todas as strings.",
+        constraints: "Pode haver string vazia.",
+        note: "Comece com o prefixo da primeira e reduza enquanto houver divergência.",
+        pitfalls: ["Caso com string vazia", "Lista com um único elemento"],
+        examples: [
+          "Entrada <code>[\'flower\',\'flow\',\'flight\']</code> → Saída <code>\'fl\'</code>",
+          "Entrada <code>[\'dog\',\'racecar\',\'car\']</code> → Saída <code>\'\'</code>"
+        ]
+      },
+      {
+        id: "b11",
+        section: "basic",
+        number: 11,
+        title: "Move Zeroes (Two Pointers)",
+        pattern: "Dois Ponteiros",
+        target: "O(n)",
+        task: "Mova zeros para o fim mantendo a ordem dos não-zeros.",
+        constraints: "In-place.",
+        note: "Use índice de escrita para não-zeros e complete o restante com 0.",
+        pitfalls: ["Trocas desnecessárias", "Perder estabilidade"],
+        examples: [
+          "Entrada <code>[0,1,0,3,12]</code> → Saída <code>[1,3,12,0,0]</code>",
+          "Entrada <code>[0,0,1]</code> → Saída <code>[1,0,0]</code>"
+        ]
+      },
+      {
+        id: "b12",
+        section: "basic",
+        number: 12,
+        title: "Implement Queue using Stacks",
+        pattern: "Duas Pilhas",
+        target: "Amortizado O(1)",
+        task: "Implemente fila FIFO com duas pilhas (`push`, `pop`, `peek`, `empty`).",
+        constraints: "Operações devem ser eficientes.",
+        note: "Mantenha pilhas `in` e `out`; só transfira quando `out` estiver vazia.",
+        pitfalls: ["Transferir a cada operação", "Esquecer de atualizar topo"],
+        examples: [
+          "Operações <code>push(1), push(2), peek()</code> → Saída <code>1</code>",
+          "Operações <code>pop()</code> após o exemplo acima → Saída <code>1</code>"
+        ]
+      },
+      {
+        id: "b13",
+        section: "basic",
+        number: 13,
+        title: "Level Order Traversal (BFS)",
+        pattern: "BFS",
+        target: "O(n)",
+        task: "Retorne valores por nível de uma árvore binária.",
+        constraints: "Raiz pode ser nula.",
+        note: "Use fila e processe `levelSize` nós por iteração.",
+        pitfalls: ["Ignorar raiz nula", "Misturar níveis"],
+        examples: [
+          "Entrada <code>[3,9,20,null,null,15,7]</code> → Saída <code>[[3],[9,20],[15,7]]</code>",
+          "Entrada <code>[]</code> → Saída <code>[]</code>"
+        ]
+      },
+      {
+        id: "b14",
+        section: "basic",
+        number: 14,
+        title: "Invert Binary Tree (DFS)",
+        pattern: "DFS",
+        target: "O(n)",
+        task: "Inverta os filhos esquerdo/direito de cada nó e retorne a raiz.",
+        constraints: "Árvore pode estar vazia.",
+        note: "DFS recursivo ou BFS iterativo são válidos.",
+        pitfalls: ["Esquecer base case", "Perder ponteiro ao trocar"],
+        examples: [
+          "Entrada <code>[4,2,7,1,3,6,9]</code> → Saída <code>[4,7,2,9,6,3,1]</code>",
+          "Entrada <code>[1]</code> → Saída <code>[1]</code>"
+        ]
+      },
+      {
+        id: "b15",
+        section: "basic",
+        number: 15,
+        title: "Majority Element (Boyer–Moore)",
+        pattern: "Votação",
+        target: "O(n)",
+        task: "Encontre o elemento que aparece mais de ⌊n/2⌋ vezes.",
+        constraints: "Elemento majoritário garantido.",
+        note: "Mantenha `candidate` e `count`, zerando quando `count` chega a 0.",
+        pitfalls: ["Esquecer que precisa de verificação se não garantido"],
+        examples: [
+          "Entrada <code>[3,2,3]</code> → Saída <code>3</code>",
+          "Entrada <code>[2,2,1,1,1,2,2]</code> → Saída <code>2</code>"
+        ]
+      },
+      {
+        id: "a16",
+        section: "advanced",
+        number: 16,
+        title: "Longest Substring Without Repeating Characters",
+        pattern: "Sliding Window",
+        target: "O(n)",
+        task: "Retorne o tamanho da maior substring sem caracteres repetidos.",
+        constraints: "String ASCII.",
+        note: "Guarde último índice visto e mova `left` com `max`.",
+        pitfalls: ["Mover `left` para trás", "Off-by-one"],
+        examples: [
+          "Entrada <code>\'abcabcbb\'</code> → Saída <code>3</code>",
+          "Entrada <code>\'bbbbb\'</code> → Saída <code>1</code>"
+        ]
+      },
+      {
+        id: "a17",
+        section: "advanced",
+        number: 17,
+        title: "Minimum Window Substring",
+        pattern: "Sliding Window",
+        target: "O(n)",
+        difficulty: "Difícil",
+        task: "Encontre a menor substring de `s` que contém todos os chars de `t`.",
+        constraints: "Considere multiplicidade de caracteres.",
+        note: "Expanda até ficar válido e depois reduza pela esquerda.",
+        pitfalls: ["Ignorar multiplicidade", "Condição de validade errada"],
+        examples: [
+          "Entrada <code>s=\'ADOBECODEBANC\', t=\'ABC\'</code> → Saída <code>\'BANC\'</code>",
+          "Entrada <code>s=\'a\', t=\'aa\'</code> → Saída <code>\'\'</code>"
+        ]
+      },
+      {
+        id: "a18",
+        section: "advanced",
+        number: 18,
+        title: "Merge Intervals",
+        pattern: "Ordenação",
+        target: "O(n log n)",
+        task: "Una intervalos que se sobrepõem.",
+        constraints: "Intervalos podem tocar nas extremidades.",
+        note: "Ordene por início e estenda o intervalo atual quando houver sobreposição.",
+        pitfalls: ["Esquecer de adicionar o último intervalo", "Erros nos limites"],
+        examples: [
+          "Entrada <code>[[1,3],[2,6],[8,10],[15,18]]</code> → Saída <code>[[1,6],[8,10],[15,18]]</code>",
+          "Entrada <code>[[1,4],[4,5]]</code> → Saída <code>[[1,5]]</code>"
+        ]
+      },
+      {
+        id: "a19",
+        section: "advanced",
+        number: 19,
+        title: "Kth Largest Element",
+        pattern: "Heap",
+        target: "O(n log k)",
+        task: "Retorne o k-ésimo maior elemento (não distinto).",
+        constraints: "k válido dentro do tamanho do array.",
+        note: "Use min-heap de tamanho k e descarte quando exceder.",
+        pitfalls: ["Confundir com k-ésimo distinto", "Mau uso do heap"],
+        examples: [
+          "Entrada <code>nums=[3,2,1,5,6,4], k=2</code> → Saída <code>5</code>",
+          "Entrada <code>nums=[3,2,3,1,2,4,5,5,6], k=4</code> → Saída <code>4</code>"
+        ]
+      },
+      {
+        id: "a20",
+        section: "advanced",
+        number: 20,
+        title: "LRU Cache",
+        pattern: "Design",
+        target: "O(1) médio",
+        difficulty: "Difícil",
+        task: "Implemente cache LRU com `get` e `put` em O(1) médio.",
+        constraints: "Capacidade fixa.",
+        note: "Use `list` para ordem e `unordered_map` para acesso direto.",
+        pitfalls: ["Invalidar iterador após erase", "Não atualizar chave existente"],
+        examples: [
+          "Capacidade 2: <code>put(1,1), put(2,2), get(1)</code> → Saída <code>1</code>",
+          "Depois: <code>put(3,3), get(2)</code> → Saída <code>-1</code>"
+        ]
+      },
+      {
+        id: "a21",
+        section: "advanced",
+        number: 21,
+        title: "Course Schedule (Topological Sort)",
+        pattern: "DAG",
+        target: "O(V+E)",
+        task: "Determine se é possível concluir todos os cursos (grafo sem ciclo).",
+        constraints: "Grafo pode ser desconexo.",
+        note: "Use Kahn (indegree + fila) ou DFS para detectar ciclo.",
+        pitfalls: ["Arestas duplicadas", "Não contar nós processados"],
+        examples: [
+          "Entrada <code>num=2, prereq=[[1,0]]</code> → Saída <code>true</code>",
+          "Entrada <code>num=2, prereq=[[1,0],[0,1]]</code> → Saída <code>false</code>"
+        ]
+      },
+      {
+        id: "a22",
+        section: "advanced",
+        number: 22,
+        title: "Word Ladder (BFS)",
+        pattern: "BFS",
+        target: "O(N·L)",
+        difficulty: "Difícil",
+        task: "Transforme `beginWord` em `endWord` mudando uma letra por vez.",
+        constraints: "Cada passo deve estar no dicionário.",
+        note: "Use buckets com curingas (ex.: h*t) e BFS.",
+        pitfalls: ["Revisitar palavras", "Marcar visitado tarde"],
+        examples: [
+          "Entrada <code>hit → cog</code> com lista <code>[hot,dot,dog,lot,log,cog]</code> → Saída <code>5</code>",
+          "Sem <code>cog</code> na lista → Saída <code>0</code>"
+        ]
+      },
+      {
+        id: "a23",
+        section: "advanced",
+        number: 23,
+        title: "Serialize/Deserialize Binary Tree",
+        pattern: "Tree Encoding",
+        target: "O(n)",
+        difficulty: "Difícil",
+        task: "Implemente `serialize` e `deserialize` preservando a estrutura da árvore.",
+        constraints: "Inclua marcadores de nulo.",
+        note: "BFS com `null` markers ou DFS pré-ordem são comuns.",
+        pitfalls: ["Codificação ambígua", "Parsing frágil"],
+        examples: [
+          "Entrada <code>[1,2,3,null,null,4,5]</code> → Saída <code>estrutura preservada</code>",
+          "Entrada <code>[]</code> → Saída <code>[]</code>"
+        ]
+      },
+      {
+        id: "a24",
+        section: "advanced",
+        number: 24,
+        title: "Trapping Rain Water",
+        pattern: "Dois Ponteiros",
+        target: "O(n)",
+        task: "Calcule o volume de água acumulado entre barras.",
+        constraints: "Alturas não negativas.",
+        note: "Dois ponteiros com `leftMax` e `rightMax` reduzem memória.",
+        pitfalls: ["Usar loops aninhados", "Erro no mínimo das bordas"],
+        examples: [
+          "Entrada <code>[0,1,0,2,1,0,1,3,2,1,2,1]</code> → Saída <code>6</code>",
+          "Entrada <code>[4,2,0,3,2,5]</code> → Saída <code>9</code>"
+        ]
+      },
+      {
+        id: "a25",
+        section: "advanced",
+        number: 25,
+        title: "Largest Rectangle in Histogram",
+        pattern: "Pilha Monótona",
+        target: "O(n)",
+        difficulty: "Difícil",
+        task: "Retorne a maior área de retângulo no histograma.",
+        constraints: "Alturas podem ter repetição.",
+        note: "Use pilha crescente e sentinela 0 para esvaziar.",
+        pitfalls: ["Cálculo incorreto da largura", "Igualdade de alturas"],
+        examples: [
+          "Entrada <code>[2,1,5,6,2,3]</code> → Saída <code>10</code>",
+          "Entrada <code>[2,4]</code> → Saída <code>4</code>"
+        ]
+      },
+      {
+        id: "a26",
+        section: "advanced",
+        number: 26,
+        title: "Median of Two Sorted Arrays",
+        pattern: "Busca Binária",
+        target: "O(log min(n,m))",
+        difficulty: "Difícil",
+        task: "Encontre a mediana de dois arrays ordenados.",
+        constraints: "Um deles pode ser vazio.",
+        note: "Faça partição binária no menor array (maxLeft ≤ minRight).",
+        pitfalls: ["Casos pares vs ímpares", "Sentinelas nos limites"],
+        examples: [
+          "Entrada <code>nums1=[1,3], nums2=[2]</code> → Saída <code>2.0</code>",
+          "Entrada <code>nums1=[1,2], nums2=[3,4]</code> → Saída <code>2.5</code>"
+        ]
+      },
+      {
+        id: "a27",
+        section: "advanced",
+        number: 27,
+        title: "Regular Expression Matching",
+        pattern: "DP",
+        target: "O(n·m)",
+        difficulty: "Difícil",
+        task: "Implemente regex com `.` e `*` cobrindo a string inteira.",
+        constraints: "`*` afeta o caractere anterior.",
+        note: "DP em prefixos com transições especiais para `*`.",
+        pitfalls: ["Inicialização para padrões como a*b*", "Transição errada de `*`"],
+        examples: [
+          "Entrada <code>s=\'aa\', p=\'a\'</code> → Saída <code>false</code>",
+          "Entrada <code>s=\'aa\', p=\'a*\'</code> → Saída <code>true</code>"
+        ]
+      },
+      {
+        id: "a28",
+        section: "advanced",
+        number: 28,
+        title: "Edit Distance (Levenshtein)",
+        pattern: "DP",
+        target: "O(n·m)",
+        difficulty: "Difícil",
+        task: "Calcule o mínimo de inserções/remoções/substituições para converter word1 em word2.",
+        constraints: "Strings podem ser longas.",
+        note: "DP com base `dp[i][0]=i` e `dp[0][j]=j`.",
+        pitfalls: ["Esquecer casos base", "Confundir índices"],
+        examples: [
+          "Entrada <code>word1=\'horse\', word2=\'ros\'</code> → Saída <code>3</code>",
+          "Entrada <code>word1=\'intention\', word2=\'execution\'</code> → Saída <code>5</code>"
+        ]
+      },
+      {
+        id: "a29",
+        section: "advanced",
+        number: 29,
+        title: "Number of Islands II",
+        pattern: "Union-Find",
+        target: "~O(k α)",
+        difficulty: "Difícil",
+        task: "Adicione terras dinamicamente e retorne o número de ilhas após cada adição.",
+        constraints: "A mesma posição pode aparecer repetida.",
+        note: "DSU por id = r*n + c; ao ativar, una com vizinhos ativos.",
+        pitfalls: ["Duplas adições", "Esquecer de checar vizinhos ativos"],
+        examples: [
+          "Entrada <code>m=3,n=3, pos=[[0,0],[0,1],[1,2],[2,1]]</code> → Saída <code>[1,1,2,3]</code>",
+          "Entrada <code>m=1,n=1, pos=[[0,0]]</code> → Saída <code>[1]</code>"
+        ]
+      },
+      {
+        id: "a30",
+        section: "advanced",
+        number: 30,
+        title: "Min Cost to Connect Points",
+        pattern: "MST (Prim)",
+        target: "O(n²)",
+        difficulty: "Difícil",
+        task: "Conecte todos os pontos com custo mínimo (distância Manhattan).",
+        constraints: "n pode ser grande; evite lista completa de arestas.",
+        note: "Prim sem arestas explícitas com `minDist` por ponto.",
+        pitfalls: ["Construir todas as arestas", "Usar PQ lenta sem necessidade"],
+        examples: [
+          "Entrada <code>[[0,0],[2,2],[3,10],[5,2],[7,0]]</code> → Saída <code>20</code>",
+          "Entrada <code>[[3,12],[-2,5],[-4,1]]</code> → Saída <code>18</code>"
+        ]
+      }
+    ];
+
+    const makeTocLinks = (items) =>
+      items.map(item => `<a href="#${item.id}">${item.number}) ${item.title}</a>`).join("");
+
+    const renderAccordion = (rootId, items) => {
+      const root = document.getElementById(rootId);
+      if (!root) return;
+      root.innerHTML = items.map(item => {
+        const collapseId = `${rootId}-${item.id}`;
+        const headingId = `${rootId}-heading-${item.id}`;
+        const difficulty = item.difficulty ? `<span class=\"meta-pill hard\">${item.difficulty}</span>` : "";
+        const bullets = [
+          item.task ? `<li><strong>Tarefa:</strong> ${item.task}</li>` : "",
+          item.constraints ? `<li><strong>Restrições:</strong> ${item.constraints}</li>` : "",
+          item.note ? `<li><strong>Nota em C++:</strong> ${item.note}</li>` : "",
+          item.pitfalls && item.pitfalls.length
+            ? `<li><strong>Armadilhas:</strong><div class=\"tag-row\">${item.pitfalls.map(p => `<span class=\"tag\">${p}</span>`).join("")}</div></li>`
+            : ""
+        ].join("");
+        const examples = item.examples && item.examples.length
+          ? `
+            <div class=\"examples\">
+              <h6>Exemplos</h6>
+              <ul class=\"bullet-list example-list\">
+                ${item.examples.map((ex, i) => `<li><strong>Ex. ${i + 1}:</strong> ${ex}</li>`).join("")}
+              </ul>
+            </div>
+          `
+          : "";
+        return `
+          <div class=\"accordion-item\" id=\"${item.id}\">
+            <h2 class=\"accordion-header\" id=\"${headingId}\">
+              <button class=\"accordion-button collapsed\" type=\"button\" data-bs-toggle=\"collapse\" data-bs-target=\"#${collapseId}\" aria-expanded=\"false\" aria-controls=\"${collapseId}\">
+                <span class=\"exercise-title\">${item.number}) ${item.title}</span>
+                <span class=\"meta-row\">
+                  ${difficulty}
+                  <span class=\"meta-pill accent\">Padrão: ${item.pattern}</span>
+                  <span class=\"meta-pill info\">Alvo: ${item.target}</span>
+                </span>
+              </button>
+            </h2>
+            <div id=\"${collapseId}\" class=\"accordion-collapse collapse\" aria-labelledby=\"${headingId}\" data-bs-parent=\"#${rootId}\">
+              <div class=\"accordion-body\">
+                <ul class=\"bullet-list\">${bullets}</ul>
+                ${examples}
+              </div>
+            </div>
+          </div>
+        `;
+      }).join("");
+    };
+
+    const basics = exercises.filter(item => item.section === "basic");
+    const advanced = exercises.filter(item => item.section === "advanced");
+
+    document.getElementById("tocBasics").innerHTML = makeTocLinks(basics);
+    document.getElementById("tocAdvanced").innerHTML = makeTocLinks(advanced);
+
+    renderAccordion("accordionBasics", basics);
+    renderAccordion("accordionAdvanced", advanced);
+  </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+    crossorigin="anonymous"
+  ></script>
 </body>
 </html>

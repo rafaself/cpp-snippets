@@ -10,7 +10,8 @@ public:
         std::unordered_map<int, int> pos;
         pos.reserve(nums.size());
 
-        for (int i = 0; i < (int)nums.size(); ++i)
+        const int n = static_cast<int>(nums.size());
+        for (int i = 0; i < n; ++i)
         {
             int need = target - nums[i];
 
@@ -20,7 +21,7 @@ public:
                 return {it->second, i};
             }
 
-            pos[nums[i]] = i;
+            pos.emplace(nums[i], i);
         }
 
         return {-1, -1};

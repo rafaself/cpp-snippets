@@ -1,0 +1,870 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>30 LeetCode-Style Exercises (C++) — 15 Basic + 15 Advanced</title>
+  <style>
+    :root{
+      --bg: #0a0f1b;
+      --panel: rgba(13,18,28,0.85);
+      --panel2: rgba(13,18,28,0.55);
+      --text: #e8edf5;
+      --muted: #b7c0d1;
+      --soft: rgba(255,255,255,0.14);
+      --border: rgba(139,161,191,0.28);
+      --link: #7ad3ff;
+      --accent: #8ef0d0;
+      --warn: #f8d36a;
+      --ring: rgba(122,211,255,0.55);
+      --shadow: 0 18px 40px rgba(0,0,0,0.45);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: "Avenir Next", "Futura", "Trebuchet MS", "Segoe UI", sans-serif;
+      --radius: 16px;
+    }
+
+    *{ box-sizing: border-box; }
+
+    html, body{ height: 100%; }
+
+    body{
+      margin: 0;
+      font-family: var(--sans);
+      color: var(--text);
+      background:
+        radial-gradient(1000px 700px at 10% -10%, rgba(122,211,255,0.28), transparent 60%),
+        radial-gradient(900px 700px at 90% 0%, rgba(142,240,208,0.20), transparent 55%),
+        radial-gradient(800px 700px at 50% 100%, rgba(248,211,106,0.14), transparent 60%),
+        linear-gradient(180deg, rgba(9,12,20,0.98), rgba(10,15,27,0.98)),
+        var(--bg);
+      line-height: 1.6;
+      background-attachment: fixed;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a{ color: var(--link); text-decoration: none; }
+    a:visited{ color: var(--link); }
+    a:hover{ text-decoration: underline; }
+    a:focus-visible{
+      outline: 2px solid var(--ring);
+      outline-offset: 2px;
+      border-radius: 8px;
+    }
+
+    .container{
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: clamp(22px, 3vw, 32px) clamp(16px, 3vw, 22px) 84px;
+    }
+
+    @keyframes fadeUp{
+      from{ opacity: 0; transform: translateY(12px); }
+      to{ opacity: 1; transform: translateY(0); }
+    }
+
+    header{
+      display: grid;
+      gap: 14px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      background: linear-gradient(160deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      animation: fadeUp 0.6s ease both;
+    }
+
+    header h1{
+      margin: 0;
+      font-size: clamp(22px, 2.6vw, 34px);
+      letter-spacing: -0.02em;
+    }
+
+    header p{
+      margin: 0;
+      color: var(--muted);
+      max-width: 85ch;
+    }
+
+    .badges{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 4px;
+    }
+
+    .badge{
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    nav{
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      animation: fadeUp 0.6s ease both;
+      animation-delay: 80ms;
+    }
+
+    .toc{
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
+    }
+
+    .toc h2{
+      margin: 0 0 10px;
+      font-size: 14px;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .toc-grid{
+      display: grid;
+      gap: 10px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 860px){
+      nav{ grid-template-columns: 1fr 1fr; }
+      .toc-grid{ grid-template-columns: 1fr 1fr; }
+    }
+
+    .toc a{
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      border-left: 2px solid transparent;
+      background: transparent;
+    }
+
+    .toc a:hover{
+      border-color: var(--soft);
+      border-left-color: rgba(122,211,255,0.6);
+      background: rgba(255,255,255,0.04);
+      text-decoration: none;
+    }
+    .toc a:focus-visible{
+      border-color: var(--ring);
+      border-left-color: var(--ring);
+      background: rgba(122,211,255,0.08);
+    }
+
+    .section{
+      margin-top: 22px;
+      padding: 20px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      animation: fadeUp 0.6s ease both;
+      animation-delay: 120ms;
+    }
+
+    .section h2{
+      margin: 0 0 6px;
+      font-size: 18px;
+      color: rgba(255,255,255,0.92);
+      letter-spacing: -0.01em;
+    }
+    .section h2::after{
+      content: "";
+      display: block;
+      width: 52px;
+      height: 2px;
+      margin-top: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, rgba(122,211,255,0.8), rgba(142,240,208,0.5));
+      opacity: 0.9;
+    }
+
+    .section p, .section li{ color: var(--muted); }
+
+    .grid{
+      margin-top: 14px;
+      display: grid;
+      gap: 16px;
+      grid-template-columns: 1fr;
+    }
+
+    .card{
+      padding: 18px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+      animation: fadeUp 0.5s ease both;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(122,211,255,0.45);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+
+    .grid .card:nth-child(6n + 1){ animation-delay: 0ms; }
+    .grid .card:nth-child(6n + 2){ animation-delay: 70ms; }
+    .grid .card:nth-child(6n + 3){ animation-delay: 140ms; }
+    .grid .card:nth-child(6n + 4){ animation-delay: 210ms; }
+    .grid .card:nth-child(6n + 5){ animation-delay: 280ms; }
+    .grid .card:nth-child(6n + 6){ animation-delay: 350ms; }
+
+    .card h3{
+      margin: 0 0 8px;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+    }
+    .card p{ margin: 8px 0; }
+    .card code{
+      font-family: var(--mono);
+      font-size: 12.5px;
+      padding: 1px 6px;
+      border-radius: 8px;
+      background: rgba(9,12,20,0.55);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.9);
+    }
+
+    .meta{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0 10px;
+    }
+
+    .pill{
+      font-size: 12px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      border: 1px solid var(--soft);
+      background: rgba(255,255,255,0.04);
+      color: rgba(255,255,255,0.76);
+    }
+
+    .pill.accent{ border-color: rgba(167,243,208,0.35); color: rgba(167,243,208,0.9); }
+    .pill.warn{ border-color: rgba(252,211,77,0.35); color: rgba(252,211,77,0.92); }
+
+    .card strong{ color: rgba(255,255,255,0.88); }
+
+    .card ul{
+      margin: 10px 0 0;
+      padding-left: 18px;
+    }
+
+    .kv{
+      margin-top: 10px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .kv .row{
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(0,0,0,0.18);
+    }
+
+    .kv code{
+      font-family: var(--mono);
+      font-size: 12px;
+      color: rgba(255,255,255,0.82);
+    }
+
+    footer{
+      margin-top: 18px;
+      padding: 16px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      background: var(--panel2);
+      color: var(--muted);
+      animation: fadeUp 0.6s ease both;
+      animation-delay: 160ms;
+    }
+
+    .small{ font-size: 13px; }
+    .small.bump{ font-size: 14px; }
+
+    .toplink{
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 12px;
+      color: rgba(125,211,252,0.95);
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(125,211,252,0.25);
+      background: rgba(125,211,252,0.06);
+    }
+    .toplink:hover{ text-decoration: none; border-color: rgba(125,211,252,0.5); }
+
+    /* Print-friendly */
+    @media print{
+      body{ background: white; color: black; }
+      header, .section, .card, .toc, footer{ box-shadow: none; background: white; }
+      a{ color: black; text-decoration: underline; }
+      .pill, .badge{ border: 1px solid #ddd; color: #333; }
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{ animation: none !important; transition: none !important; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container" id="top">
+
+    <header>
+      <h1>30 LeetCode‑Style Exercises (C++) — 15 Basic + 15 Advanced</h1>
+      <p>
+        A curated set of classic algorithm problems with detailed requirements, constraints, C++ notes, target complexity,
+        and common pitfalls. Use this as a structured roadmap for interviews and competitive programming fundamentals.
+      </p>
+      <div class="badges">
+        <span class="badge">Language: C++</span>
+        <span class="badge">Patterns: Hashing, Two Pointers, Sliding Window, BFS/DFS, DP, DSU, MST</span>
+        <span class="badge">Focus: Correctness → Optimization → Testing</span>
+      </div>
+    </header>
+
+    <nav>
+      <div class="toc">
+        <h2>Table of Contents</h2>
+        <div class="toc-grid">
+          <div>
+            <a href="#basics">Part 1 — Basic (1–15)</a><br />
+            <a href="#b1">1) Two Sum</a><br />
+            <a href="#b2">2) Valid Parentheses</a><br />
+            <a href="#b3">3) Merge Two Sorted Lists</a><br />
+            <a href="#b4">4) Reverse a Linked List</a><br />
+            <a href="#b5">5) Binary Search</a><br />
+            <a href="#b6">6) Flood Fill</a><br />
+            <a href="#b7">7) First Unique Character</a><br />
+            <a href="#b8">8) Valid Anagram</a><br />
+          </div>
+          <div>
+            <a href="#b9">9) Best Time to Buy/Sell Stock</a><br />
+            <a href="#b10">10) Longest Common Prefix</a><br />
+            <a href="#b11">11) Move Zeroes</a><br />
+            <a href="#b12">12) Implement Queue using Stacks</a><br />
+            <a href="#b13">13) Level Order Traversal</a><br />
+            <a href="#b14">14) Invert Binary Tree</a><br />
+            <a href="#b15">15) Majority Element</a><br />
+          </div>
+          <div>
+            <a href="#advanced">Part 2 — Advanced (16–30)</a><br />
+            <a href="#a16">16) Longest Unique Substring</a><br />
+            <a href="#a17">17) Minimum Window Substring</a><br />
+            <a href="#a18">18) Merge Intervals</a><br />
+            <a href="#a19">19) Kth Largest Element</a><br />
+            <a href="#a20">20) LRU Cache</a><br />
+            <a href="#a21">21) Course Schedule</a><br />
+            <a href="#a22">22) Word Ladder</a><br />
+            <a href="#a23">23) Serialize/Deserialize Tree</a><br />
+          </div>
+          <div>
+            <a href="#a24">24) Trapping Rain Water</a><br />
+            <a href="#a25">25) Largest Rectangle Histogram</a><br />
+            <a href="#a26">26) Median of Two Sorted Arrays</a><br />
+            <a href="#a27">27) Regex Matching</a><br />
+            <a href="#a28">28) Edit Distance</a><br />
+            <a href="#a29">29) Number of Islands II</a><br />
+            <a href="#a30">30) Min Cost to Connect Points</a><br />
+          </div>
+        </div>
+      </div>
+
+      <div class="toc">
+        <h2>Practice Workflow</h2>
+        <ul class="small bump">
+          <li><strong>Start brute force</strong> to nail correctness.</li>
+          <li>Identify the <strong>dominant pattern</strong> (window/graph/DP…).</li>
+          <li>Optimize to the <strong>target complexity</strong>.</li>
+          <li>Write tests: edge cases, random, worst-case.</li>
+          <li>Explain: <strong>invariant</strong> + complexity.</li>
+        </ul>
+        <div class="kv">
+          <div class="row"><strong>C++ STL:</strong> <code>vector, string, unordered_map, unordered_set, deque, stack, queue, priority_queue, list</code></div>
+          <div class="row"><strong>Interview habit:</strong> <code>mid = lo + (hi - lo)/2</code> (avoid overflow)</div>
+          <div class="row"><strong>Grid:</strong> <code>dirs = {{1,0},{-1,0},{0,1},{0,-1}}</code> (4-neighborhood)</div>
+        </div>
+      </div>
+    </nav>
+
+    <section class="section" id="basics">
+      <h2>Part 1 — 15 Basic Exercises</h2>
+      <p>Build fluency with foundational patterns. Prioritize clean implementations and strong edge-case handling.</p>
+
+      <div class="grid">
+
+        <article class="card" id="b1">
+          <h3>1) Two Sum (Hash Map)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Hashing</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Given <code>nums</code> and <code>target</code>, return indices <code>i, j</code> such that <code>nums[i] + nums[j] == target</code>. You may not reuse the same element.</p>
+          <p><strong>Constraints:</strong> <code>2 ≤ n ≤ 1e5</code>, values may be negative. Assume one valid answer exists.</p>
+          <p><strong>C++ note:</strong> store <code>value → index</code> in <code>unordered_map</code>; for each <code>x</code>, check if <code>target-x</code> is already seen.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> duplicates (e.g., <code>[3,3]</code>), returning values instead of indices.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b2">
+          <h3>2) Valid Parentheses (Stack)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Stack</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Determine if a bracket string containing only <code>()[]{}</code> is valid (correct type and correct nesting order).</p>
+          <p><strong>Constraints:</strong> <code>0 ≤ |s| ≤ 1e5</code>.</p>
+          <p><strong>C++ note:</strong> use <code>stack&lt;char&gt;</code> and a mapping from closing → expected opening.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> leading closing bracket; leftover opens at the end.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b3">
+          <h3>3) Merge Two Sorted Lists (Linked List)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Pointers</span>
+            <span class="pill">Target: O(n+m)</span>
+          </div>
+          <p><strong>Task:</strong> Merge two sorted singly-linked lists into one sorted list and return its head.</p>
+          <p><strong>Constraints:</strong> total nodes ≤ <code>1e5</code>.</p>
+          <p><strong>C++ note:</strong> use a dummy head node; iteratively append the smaller current node.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> forgetting to attach the remaining tail; recursion depth.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b4">
+          <h3>4) Reverse a Linked List (Iterative)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Pointers</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Reverse a singly linked list and return the new head.</p>
+          <p><strong>C++ note:</strong> use <code>prev</code>, <code>cur</code>, <code>next</code>; save <code>next</code> before rewiring <code>cur-&gt;next</code>.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> losing the next pointer; returning the wrong head.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b5">
+          <h3>5) Binary Search (Classic)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Binary Search</span>
+            <span class="pill">Target: O(log n)</span>
+          </div>
+          <p><strong>Task:</strong> Given a sorted array and a target, return its index or <code>-1</code>.</p>
+          <p><strong>Constraints:</strong> up to <code>1e6</code> elements.</p>
+          <p><strong>C++ note:</strong> compute mid as <code>lo + (hi - lo)/2</code> to avoid overflow.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> infinite loops from incorrect boundary updates; off-by-one errors.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b6">
+          <h3>6) Flood Fill (Grid DFS/BFS)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: BFS/DFS</span>
+            <span class="pill">Target: O(m·n)</span>
+          </div>
+          <p><strong>Task:</strong> Recolor the entire 4-connected region starting from <code>(sr, sc)</code> that has the same original color.</p>
+          <p><strong>Constraints:</strong> <code>1 ≤ m,n ≤ 200</code>.</p>
+          <p><strong>C++ note:</strong> handle <code>newColor == oldColor</code> early to avoid loops; BFS with <code>queue</code> is robust.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> revisiting cells; missing bounds checks; wrong connectivity (4 vs 8).</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b7">
+          <h3>7) First Unique Character (Counting)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Frequency</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Return the index of the first non-repeating character in a string, or <code>-1</code> if none.</p>
+          <p><strong>C++ note:</strong> two-pass approach: count frequencies, then scan for the first with count 1. Use <code>array&lt;int,256&gt;</code>.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> mixing index and character; not handling empty string.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b8">
+          <h3>8) Valid Anagram (Frequency)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Frequency</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Determine if <code>t</code> is an anagram of <code>s</code>.</p>
+          <p><strong>C++ note:</strong> if lengths differ, return false. Count with a fixed-size array for speed.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> using sorting as default (works, but slower); forgetting early length check.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b9">
+          <h3>9) Best Time to Buy and Sell Stock (Single Pass)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Greedy</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Choose one day to buy and a later day to sell to maximize profit. Return 0 if no profit is possible.</p>
+          <p><strong>C++ note:</strong> track the minimum price seen so far and update best profit each step.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> selling before buying; returning negative profit.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b10">
+          <h3>10) Longest Common Prefix (String Scan)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Strings</span>
+            <span class="pill">Target: O(total chars)</span>
+          </div>
+          <p><strong>Task:</strong> Given an array of strings, return the longest common prefix (or empty string).</p>
+          <p><strong>C++ note:</strong> start with prefix = first string, shrink while other strings don’t match; or sort and compare first/last.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> empty string among inputs; single-element case.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b11">
+          <h3>11) Move Zeroes (Two Pointers)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Two Pointers</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Move all zeros to the end of the array <em>in-place</em>, maintaining the relative order of non-zero elements.</p>
+          <p><strong>C++ note:</strong> use a write index for non-zeros; fill the rest with zeros.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> unnecessary swaps; not preserving order.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b12">
+          <h3>12) Implement Queue using Stacks</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Two Stacks</span>
+            <span class="pill">Target: Amortized O(1)</span>
+          </div>
+          <p><strong>Task:</strong> Implement a FIFO queue using two LIFO stacks with operations: <code>push</code>, <code>pop</code>, <code>peek</code>, <code>empty</code>.</p>
+          <p><strong>C++ note:</strong> use <code>in</code> and <code>out</code>; pour only when <code>out</code> is empty and you need front.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> pouring every operation instead of lazily.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b13">
+          <h3>13) Binary Tree Level Order Traversal (BFS)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: BFS</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Return a list of levels where each level contains the values of nodes at that depth.</p>
+          <p><strong>C++ note:</strong> queue + process <code>levelSize</code> nodes per loop iteration.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> ignoring <code>nullptr</code> root; mixing levels without <code>levelSize</code>.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b14">
+          <h3>14) Invert Binary Tree (DFS)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: DFS</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Swap left and right children of every node and return the root.</p>
+          <p><strong>C++ note:</strong> recursive DFS or iterative BFS both work; keep it simple and safe.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> forgetting base case; accidentally losing a child pointer during swap.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="b15">
+          <h3>15) Majority Element (Boyer–Moore Voting)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Voting</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Find the element that appears more than ⌊n/2⌋ times (guaranteed to exist).</p>
+          <p><strong>C++ note:</strong> maintain <code>candidate</code> and <code>count</code>; decrement when mismatch and reset when count hits 0.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> if not guaranteed, you need a verification pass.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+      </div>
+    </section>
+
+    <section class="section" id="advanced">
+      <h2>Part 2 — 15 Advanced Exercises</h2>
+      <p>These require stronger pattern recognition and implementation discipline (windows, graphs, DP, DSU, MST).</p>
+
+      <div class="grid">
+
+        <article class="card" id="a16">
+          <h3>16) Longest Substring Without Repeating Characters (Sliding Window)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Sliding Window</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Return the length of the longest substring of <code>s</code> containing all unique characters.</p>
+          <p><strong>C++ note:</strong> track last seen index with <code>array&lt;int,256&gt;</code> initialized to -1; update <code>left = max(left, last[c]+1)</code>.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> moving <code>left</code> backward; off-by-one with indices.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a17">
+          <h3>17) Minimum Window Substring (Hard Sliding Window)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: Sliding Window</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Return the smallest substring of <code>s</code> that contains all chars of <code>t</code> (with multiplicity). Return empty string if none.</p>
+          <p><strong>Approach requirements:</strong> expand right until valid → shrink left to minimize while keeping valid.</p>
+          <p><strong>C++ note:</strong> use frequency arrays (ASCII) and track how many required chars are satisfied.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> ignoring multiplicities; incorrect validity condition.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a18">
+          <h3>18) Merge Intervals (Sort + Sweep)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Sort</span>
+            <span class="pill">Target: O(n log n)</span>
+          </div>
+          <p><strong>Task:</strong> Merge overlapping intervals and return the merged list.</p>
+          <p><strong>C++ note:</strong> sort by start; iterate and extend current interval end when overlap exists (<code>next.start ≤ cur.end</code>).</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> endpoint handling; forgetting to push final interval.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a19">
+          <h3>19) Kth Largest Element in an Array (Heap / Quickselect)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Heap</span>
+            <span class="pill">Target: O(n log k)</span>
+          </div>
+          <p><strong>Task:</strong> Return the <code>k</code>th largest element (not kth distinct).</p>
+          <p><strong>C++ note:</strong> maintain a min-heap of size <code>k</code>; pop when size exceeds <code>k</code>.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> confusion between kth largest and kth distinct; mishandling duplicates.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a20">
+          <h3>20) LRU Cache (Hash Map + Doubly Linked List)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: Design</span>
+            <span class="pill">Target: O(1) avg</span>
+          </div>
+          <p><strong>Task:</strong> Implement an LRU cache with <code>get</code> and <code>put</code> in O(1) average time. Evict least recently used when capacity exceeded.</p>
+          <p><strong>C++ note:</strong> use <code>list&lt;pair&lt;int,int&gt;&gt;</code> for order and <code>unordered_map&lt;int, list::iterator&gt;</code> for lookup.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> iterator invalidation after erase; forgetting to update existing keys.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a21">
+          <h3>21) Course Schedule (Topological Sort)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: DAG</span>
+            <span class="pill">Target: O(V+E)</span>
+          </div>
+          <p><strong>Task:</strong> Given prerequisites edges <code>b → a</code>, determine if all courses can be finished (graph must be acyclic).</p>
+          <p><strong>C++ note:</strong> Kahn’s algorithm (indegree + queue) or DFS cycle detection.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> disconnected components; duplicate edges; not counting processed nodes.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a22">
+          <h3>22) Word Ladder (BFS on Implicit Graph)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: BFS</span>
+            <span class="pill">Target: Practical O(N·L)</span>
+          </div>
+          <p><strong>Task:</strong> Transform <code>beginWord</code> to <code>endWord</code> by changing one letter at a time; every intermediate must be in dictionary. Return shortest length, or 0.</p>
+          <p><strong>C++ note:</strong> build wildcard buckets (e.g., <code>h*t</code>) → list of words; BFS using these buckets.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> revisiting words; marking visited too late; slow neighbor generation.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a23">
+          <h3>23) Serialize and Deserialize Binary Tree</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: Tree Encoding</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Implement <code>serialize(TreeNode*)</code> → string and <code>deserialize(string)</code> → TreeNode*, preserving structure (including null children).</p>
+          <p><strong>C++ note:</strong> choose BFS with <code>null</code> markers or preorder DFS with markers; ensure parsing is robust.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> ambiguous encoding; parsing errors; trailing null handling.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a24">
+          <h3>24) Trapping Rain Water (Two Pointers / Monotonic Stack)</h3>
+          <div class="meta">
+            <span class="pill accent">Pattern: Two Pointers</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Given bar heights, compute trapped water volume.</p>
+          <p><strong>C++ note:</strong> two-pointer method with <code>leftMax</code>, <code>rightMax</code> is clean and O(1) extra space.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> nested loops; miscomputing min boundary height.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a25">
+          <h3>25) Largest Rectangle in Histogram (Monotonic Stack)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: Monotonic Stack</span>
+            <span class="pill">Target: O(n)</span>
+          </div>
+          <p><strong>Task:</strong> Return the area of the largest rectangle that can be formed in a histogram.</p>
+          <p><strong>C++ note:</strong> keep an increasing stack of indices; when a lower height appears, pop and compute area using popped bar as smallest; add a sentinel 0 height to flush.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> width calculation mistakes; handling equal heights inconsistently.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a26">
+          <h3>26) Median of Two Sorted Arrays (Binary Search Partition)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: Binary Search</span>
+            <span class="pill">Target: O(log min(n,m))</span>
+          </div>
+          <p><strong>Task:</strong> Compute the median of two sorted arrays in <code>O(log(min(n,m)))</code>.</p>
+          <p><strong>Key idea:</strong> binary search partition in the smaller array so left side has half the elements and <code>maxLeft ≤ minRight</code>.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> even vs odd total length; empty array cases; boundary sentinels.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a27">
+          <h3>27) Regular Expression Matching (DP)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: DP</span>
+            <span class="pill">Target: O(n·m)</span>
+          </div>
+          <p><strong>Task:</strong> Implement regex matching where <code>.</code> matches any char and <code>*</code> means zero or more of the preceding element. Match must cover the entire string.</p>
+          <p><strong>C++ note:</strong> DP table <code>dp[i][j]</code> over prefixes; special transitions for <code>*</code>.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> initialization for patterns like <code>a*b*c*</code> matching empty string; wrong <code>*</code> transitions.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a28">
+          <h3>28) Edit Distance (Levenshtein DP)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: DP</span>
+            <span class="pill">Target: O(n·m)</span>
+          </div>
+          <p><strong>Task:</strong> Compute minimum insert/delete/replace operations to convert <code>word1</code> into <code>word2</code>.</p>
+          <p><strong>C++ note:</strong> classic DP with base rows/cols; optionally optimize memory to one row.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> forgetting base cases <code>dp[i][0]=i</code>, <code>dp[0][j]=j</code>.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a29">
+          <h3>29) Number of Islands II (Dynamic Connectivity via DSU)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: Union-Find</span>
+            <span class="pill">Target: ~O(k α)</span>
+          </div>
+          <p><strong>Task:</strong> Start with all water. Add lands one-by-one; after each addition, return current island count.</p>
+          <p><strong>C++ note:</strong> DSU over <code>id = r*n + c</code>. On activation: <code>count++</code>, union with active neighbors; if union merges components, <code>count--</code>.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> duplicate additions; forgetting to check <code>active</code> neighbors; wrong DSU initialization.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+        <article class="card" id="a30">
+          <h3>30) Minimum Cost to Connect Points (MST — Prim)</h3>
+          <div class="meta">
+            <span class="pill warn">Hard</span>
+            <span class="pill accent">Pattern: MST</span>
+            <span class="pill">Target: O(n²)</span>
+          </div>
+          <p><strong>Task:</strong> Connect all points with minimum total cost where edge cost is Manhattan distance.</p>
+          <p><strong>C++ note:</strong> Prim without explicit edge list: keep <code>minDist[i]</code> to current MST; pick smallest unvisited each step and update all distances.</p>
+          <ul>
+            <li><strong>Pitfalls:</strong> building all edges unnecessarily for large n; using slow priority queue when O(n²) is simpler.</li>
+          </ul>
+          <a class="toplink" href="#top">Back to top ↑</a>
+        </article>
+
+      </div>
+    </section>
+
+    <footer>
+      <strong>Suggested submission checklist (C++):</strong>
+      <ul class="small bump">
+        <li>State the approach + invariant (why it’s correct).</li>
+        <li>Write down time and memory complexity.</li>
+        <li>Test edges: empty, single, duplicates, extremes, worst-case shapes.</li>
+        <li>Prefer iterative solutions when recursion depth is risky.</li>
+      </ul>
+    </footer>
+
+  </div>
+</body>
+</html>

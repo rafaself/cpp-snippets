@@ -1,1 +1,6 @@
 tempCodeRunnerFile.cpp
+artifacts/
+bin/
+build_info/
+*.o
+a.out

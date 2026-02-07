@@ -1,44 +1,48 @@
 #include <iostream>
 #include <unordered_map>
+#include <string>
+#include <algorithm>
 
 class Solution
 {
 public:
-    static int lengthOfLongestSubstring(std::string s)
+    static int lengthOfLongestSubstring(const std::string &s)
     {
-        int count{0};
-        int temp{0};
-        std::unordered_map<char, int> content;
+        std::unordered_map<char, int> last;
+        last.reserve(128);
 
-        for (char c : s)
+        int best = 0;
+        int start = 0;
+
+        for (int i = 0; i < static_cast<int>(s.size()); ++i)
         {
-            if (content.find(c) != content.end())
-            {
-                if (temp > count)
-                {
-                    count = temp;
-                }
-                temp = 0;
-                content.clear();
-            }
-            temp++;
-            content.emplace(c, 1);
+            char c = s[i];
 
-            // std::cout << "letter: " << c << '\n';
-            // std::cout << "count: " << count << " - temp: " << temp << '\n';
-            // std::cout << "---------------------------\n";
+            auto it = last.find(c);
+            if (it != last.end() && it->second >= start)
+            {
+                start = it->second + 1;
+            }
+
+            last[c] = i;
+            best = std::max(best, i - start + 1);
         }
 
-        return count;
+        return best;
     }
 };
 
 int main()
 {
-    int count = Solution().lengthOfLongestSubstring("abcabcbb");
-    std::cout << "Final count: " << count << '\n';
-    count = Solution().lengthOfLongestSubstring("bbbbbbbb");
-    std::cout << "Final count: " << count << '\n';
-    count = Solution().lengthOfLongestSubstring("pwwkew");
-    std::cout << "Final count: " << count << '\n';
+    int count = Solution::lengthOfLongestSubstring("abcabcbb");
+    std::cout << "Final count: " << count << '\n'; // 3
+
+    count = Solution::lengthOfLongestSubstring("bbbbbbbb");
+    std::cout << "Final count: " << count << '\n'; // 1
+
+    count = Solution::lengthOfLongestSubstring("pwwkew");
+    std::cout << "Final count: " << count << '\n'; // 3
+
+    count = Solution::lengthOfLongestSubstring(" ");
+    std::cout << "Final count: " << count << '\n'; // 1
 }
